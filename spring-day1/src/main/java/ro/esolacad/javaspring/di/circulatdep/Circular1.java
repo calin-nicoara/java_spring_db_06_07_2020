@@ -3,13 +3,17 @@ package ro.esolacad.javaspring.di.circulatdep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class Circular1 {
 
+    private Circular3 circular3;
+
     @Autowired
-    private Circular2 circular2;
+    public Circular1(final Circular3 circular3) {
+        this.circular3 = circular3;
+    }
 
     public void call1() {
-        circular2.call2();
+        circular3.call3();
     }
 }
