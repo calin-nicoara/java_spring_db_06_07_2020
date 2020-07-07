@@ -6,13 +6,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
+import org.springframework.test.context.TestExecutionListeners;
 
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class TaxCalculatorTest {
+class BeanTest {
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -99,5 +100,11 @@ class TaxCalculatorTest {
         TaxCalculator taxCalculator = applicationContext.getBean("taxCalculatorWithDep", TaxCalculator.class);
 
         Assertions.assertEquals("INJECTED", taxCalculator.getName());
+    }
+
+    @Test
+    public void testOutsideBean() {
+        String outsideString = applicationContext.getBean("outsideString", String.class);
+        System.out.println(outsideString);
     }
 }
