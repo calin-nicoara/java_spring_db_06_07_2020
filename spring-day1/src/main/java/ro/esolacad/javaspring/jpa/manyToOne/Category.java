@@ -22,6 +22,6 @@ public class Category {
     private String name;
     private Boolean active;
 
-    @OneToMany
-    private Set<Product> products;
+//    @OneToMany
+//    private Set<Product> products;
 }

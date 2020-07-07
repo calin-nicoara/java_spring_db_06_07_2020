@@ -22,7 +22,7 @@ public class ProductWithCategory {
     private BigDecimal price;
 
 //    @ManyToOne(fetch = FetchType.LAZY)
-//    @ManyToOne
-//    @JoinColumn(name="category_id", nullable = false)
-//    private Category category;
+    @ManyToOne
+    @JoinColumn(name="category_id", nullable = false)
+    private Category category;
 }
