@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.Optional;
 
 @SpringBootTest
+@Sql("/sql/product.sql")
+@Sql(value = "/sql/delete.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class JpaRepositoryTest {
 
     @Autowired

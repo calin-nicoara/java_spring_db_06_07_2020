@@ -3,12 +3,15 @@ package ro.esolacad.javaspring.jdbc;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Sql("/sql/product.sql")
+@Sql(value = "/sql/delete.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 class ProductJdbcServiceTest {
 
     @Autowired
@@ -21,7 +24,7 @@ class ProductJdbcServiceTest {
 
     @Test
     public void testGetProduct() {
-        ProductJdbc productById = productJdbcService.findProductById(3L);
+        ProductJdbc productById = productJdbcService.findProductById(-3L);
 
         System.out.println(productById);
     }

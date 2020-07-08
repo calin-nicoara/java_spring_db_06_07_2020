@@ -33,7 +33,8 @@ public class ManyToOneTest {
         ProductWithCategory product = ProductWithCategory.builder()
                 .name("Borsec")
                 .price(BigDecimal.ONE)
-                .category(savedCategory)
+                .category(Category.builder().id(1L).build())
+//                .category(savedCategory)
                 .build();
 
         ProductWithCategory productWithCategory = productWithCategoryRepository.save(product);
@@ -41,6 +42,7 @@ public class ManyToOneTest {
         System.out.println("AFter product is saved");
 
         Optional<ProductWithCategory> byId = productWithCategoryRepository.findById(productWithCategory.getId());
-        System.out.println(byId.get().getCategory());
+        System.out.println(byId);
+//        System.out.println(byId.get().getCategory());
     }
 }

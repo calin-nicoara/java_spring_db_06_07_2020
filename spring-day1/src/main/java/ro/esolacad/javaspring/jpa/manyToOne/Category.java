@@ -23,5 +23,6 @@ public class Category {
     private Boolean active;
 
 //    @OneToMany
+    // Recommended to use Set
 //    private Set<Product> products;
 }
