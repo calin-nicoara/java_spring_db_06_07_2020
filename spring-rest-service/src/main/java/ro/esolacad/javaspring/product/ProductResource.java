@@ -1,12 +1,9 @@
 package ro.esolacad.javaspring.product;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 import javax.validation.Valid;
 
@@ -15,16 +12,18 @@ import ro.esolacad.javaspring.GenericListModel;
 
 //@Controller
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/api/product")
 @RequiredArgsConstructor
+@CrossOrigin("http://localhost:4200")
 public class ProductResource {
 
     private final ProductService productService;
 
     @GetMapping
     public ResponseEntity<GenericListModel<ProductModel>> findByAllProducts(
+//            @RequestParam(value = "page", required = false, defaultValue = "10") int page,
             @ModelAttribute ProductFilterModel productFilterModel,
-            @RequestHeader("username") String username
+            @RequestHeader(value = "username", required = false) String username
     ) {
         System.out.println("Username:" + username);
 
@@ -46,8 +45,9 @@ public class ProductResource {
     }
 
     @PostMapping
-    public void saveProduct(@Valid @RequestBody ProductModel product) {
-        productService.saveProduct(product);
+    @PreAuthorize("hasRole('WRITER')")
+    public ResponseEntity<ProductModel> saveProduct(@Valid @RequestBody ProductModel product) {
+        return ResponseEntity.ok(productService.saveProduct(product));
     }
 
     @PutMapping("/{productId}")

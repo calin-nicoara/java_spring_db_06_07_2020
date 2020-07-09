@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ProductFilterModel {
 
-    private Integer page;
-    private Integer size;
+    private Integer page = 0;
+    private Integer size = 10;
     private String nameEquals;
     private BigDecimal priceGreaterThan;
 }

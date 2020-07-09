@@ -42,6 +42,7 @@ public class BookService {
                 });
     }
 
+    @Transactional(readOnly = true)
     public void showBook(Long id) {
         bookRepository.findById(id)
         .ifPresent(book -> {

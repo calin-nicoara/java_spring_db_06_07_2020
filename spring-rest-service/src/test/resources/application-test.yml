@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1
+    username: bla
+    password: bla
+    #  To work with test containers
+#  datasource:
+#    driver-class-name: org.postgresql.Driver
+#    url: jdbc:postgresql:~/test?reWriteBatchedInserts=true;AUTO_SERVER=TRUE
