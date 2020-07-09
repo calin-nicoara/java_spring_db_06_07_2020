@@ -44,8 +44,15 @@ public class ProductResource {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/with-stock/{productId}")
+    public ResponseEntity<ProductWithStockModel> findWithStockByProductById(@PathVariable Long productId) {
+        return productService.findWithStockByProductById(productId)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @PostMapping
-    @PreAuthorize("hasRole('WRITER')")
+//    @PreAuthorize("hasRole('WRITER')")
     public ResponseEntity<ProductModel> saveProduct(@Valid @RequestBody ProductModel product) {
         return ResponseEntity.ok(productService.saveProduct(product));
     }

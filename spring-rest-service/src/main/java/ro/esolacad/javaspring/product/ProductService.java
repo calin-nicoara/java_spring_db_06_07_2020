@@ -8,6 +8,7 @@ public interface ProductService {
     GenericListModel<ProductModel> findByAllProducts(final int page, final int size);
     GenericListModel<ProductModel> findByAllProducts(final ProductFilterModel productFilterModel);
     Optional<ProductModel> findByProductById(Long productId);
+    Optional<ProductWithStockModel> findWithStockByProductById(Long productId);
     ProductModel saveProduct(ProductModel productModel);
     void delete(final Long productId);
     void throwError();

@@ -1,0 +1,14 @@
+server.port: 8081
+spring:
+  cloud:
+    stream:
+      kafka:
+        bindings:
+          productChannel:
+            consumer:
+              ackEachRecord: true
+      default:
+        group: 'consumerAppGroup'
+      bindings:
+        productChannel:
+          destination: NEW_PRODUCT

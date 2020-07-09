@@ -23,6 +23,8 @@ public class ProductModel {
     @NotBlank
     private String name;
 
+    private String code;
+
     @DecimalMin("1.00")
     private BigDecimal price;
 

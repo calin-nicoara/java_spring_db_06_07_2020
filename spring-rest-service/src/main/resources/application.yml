@@ -10,3 +10,23 @@ spring:
       hibernate:
         format_sql: true
         show_sql: true
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost
+          transaction:
+            transaction-id-prefix: 'spring-rest-app'
+            producer:
+              configuration:
+                retries: 3
+                max.in.flight.requests.per.connection: 1
+                acks: 'all'
+                linger.ms: 50
+                key.serializer: org.apache.kafka.common.serialization.StringSerializer
+      bindings:
+        productChannel:
+          destination: NEW_PRODUCT
+feign:
+  hystrix:
+    enabled: true

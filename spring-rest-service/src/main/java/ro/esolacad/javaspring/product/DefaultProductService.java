@@ -1,5 +1,6 @@
 package ro.esolacad.javaspring.product;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,13 +17,18 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import ro.esolacad.javaspring.GenericListModel;
 import ro.esolacad.javaspring.UserInterceptor;
+import ro.esolacad.javaspring.product.externalclients.StockModel;
+import ro.esolacad.javaspring.product.externalclients.StockRestClient;
+import ro.esolacad.javaspring.product.messaging.ProductGateway;
 
 @Service
-@RequiredArgsConstructor
 @Transactional
+@RequiredArgsConstructor
 public class DefaultProductService implements ProductService{
 
     private final ProductRepository productRepository;
+    private final StockRestClient stockRestClient;
+    private final ProductGateway productGateway;
 
     public GenericListModel<ProductModel> findByAllProducts(final int page, final int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id"));
@@ -74,11 +80,31 @@ public class DefaultProductService implements ProductService{
                 .map(ProductMapper::toModel);
     }
 
+    @Override
+    public Optional<ProductWithStockModel> findWithStockByProductById(final Long productId) {
+        return findByProductById(productId)
+                .map(productModel -> {
+                    StockModel stockModel = stockRestClient.getStockModelFromFeign(productModel.getCode());
+
+                    return ProductWithStockModel.builder()
+                            .id(productModel.getId())
+                            .code(productModel.getCode())
+                            .name(productModel.getName())
+                            .price(productModel.getPrice())
+                            .status(productModel.getStatus())
+                            .stock(stockModel.getStock())
+                            .build();
+                });
+    }
+
     public ProductModel saveProduct(ProductModel productModel) {
         Product product = ProductMapper.toEntity(productModel);
         Product savedProduct = productRepository.save(product);
 
-        return ProductMapper.toModel(savedProduct);
+        ProductModel finalProductModel = ProductMapper.toModel(savedProduct);
+
+        productGateway.sendProduct(finalProductModel);
+        return finalProductModel;
     }
 
     public void delete(final Long productId) {

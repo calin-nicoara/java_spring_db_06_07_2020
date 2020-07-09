@@ -26,6 +26,8 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private String code;
+
     @NotNull
     private String name;
     private BigDecimal price;
