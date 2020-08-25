@@ -24,5 +24,7 @@ public class Category {
 
 //    @OneToMany
     // Recommended to use Set
+//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JoinColumn(name = "post_id")
 //    private Set<Product> products;
 }
